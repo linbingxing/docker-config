@@ -64,12 +64,6 @@ networks:
 
   docker-compose -f redis.yml up -d
 
-```
-​```
-
-​```
-```
-
 ## 2.3 查看是否部署成功
 
 ```shell
