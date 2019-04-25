@@ -1,0 +1,32 @@
+version: '2'
+services:
+  redis-master:
+    image: redis:5.0       ## 镜像
+    container_name: redis-master
+    command: redis-server --masterauth 123456 --requirepass 123456
+    ports:
+    - "6379:6379"
+    networks:
+    - sentinel-master
+  redis-slave1:
+    image: redis:5.0                 ## 镜像
+    container_name: redis-slave-1
+    ports:
+    - "6380:6379"           ## 暴露端口
+    command: redis-server --slaveof redis-master 6379  --masterauth 123456 --requirepass 123456 
+    depends_on:
+    - redis-master
+    networks:
+    - sentinel-master
+  redis-slave2:
+    image: redis:5.0                 ## 镜像
+    container_name: redis-slave-2
+    ports:
+    - "6381:6379"           ## 暴露端口
+    command: redis-server --slaveof redis-master 6379  --masterauth 123456 --requirepass 123456
+    depends_on:
+    - redis-master
+    networks:
+    - sentinel-master
+networks:
+  sentinel-master:
